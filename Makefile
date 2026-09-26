@@ -3,14 +3,15 @@ SHELL := /bin/bash
 .ONESHELL:
 .DEFAULT_GOAL := help
 
-.PHONY: help fmt fmt-check build check
+.PHONY: help fmt fmt-check build check test
 
 help:
 	@printf '%s\n' \
 	  'make fmt        Format Go source files' \
 	  'make fmt-check  Check Go formatting without changing files' \
 	  'make build      Build all Go packages' \
-	  'make check      Check formatting and build'
+	  'make test       Run tests' \
+	  'make check      Check formatting, build, and run tests'
 
 fmt:
 	@gofmt -w .
@@ -38,4 +39,7 @@ build:
 	fi
 	go build ./...
 
-check: fmt-check build
+test:
+	go test -v ./...
+
+check: fmt-check build test
